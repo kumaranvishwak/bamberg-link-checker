@@ -17,6 +17,17 @@ describe("findUrlProblem", () => {
 		expect(findUrlProblem("https://faessla")).not.toBeNull()
 	})
 
+	test("localhost and full IP addresses", () => {
+		expect(findUrlProblem("http://localhost:5173/")).toBeNull()
+		expect(findUrlProblem("http://192.168.1.10/files/")).toBeNull()
+		expect(findUrlProblem("http://[::1]/")).toBeNull()
+	})
+
+	test("rejects half-typed IP addresses", () => {
+		expect(findUrlProblem("http://192")).not.toBeNull()
+		expect(findUrlProblem("http://192.168.1")).not.toBeNull()
+	})
+
 	test("rejects other schemes", () => {
 		expect(findUrlProblem("ftp://uni-bamberg.example")).toContain("ftp:")
 		expect(findUrlProblem("javascript:alert(1)")).not.toBeNull()
