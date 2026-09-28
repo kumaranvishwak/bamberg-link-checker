@@ -88,3 +88,9 @@ kbd {
 	border-radius: 3px;
 	background: #fff;
 }
+
+label {
+	display: block;
+	margin-bottom: 6px;
+	font-weight: 600;
+}

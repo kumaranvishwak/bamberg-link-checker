@@ -16,7 +16,7 @@ npm run build
 - `https://uni-bamberg.example/lectures/isosysc/` — folder
 - `https://uni-bamberg.example/lectures/isosysc/slides-week3.pdf` — file
 - `https://uni-bamberg.example/mensa/` — not found
-
+- `https://offline.example/anything` — server error (on purpose)
 These URLs are part of the mock data. The app does not check real websites.
 Server checks start at most once every 700 ms while typing.
 
