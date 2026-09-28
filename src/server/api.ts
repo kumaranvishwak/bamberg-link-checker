@@ -6,7 +6,7 @@ export type ServerAnswer =
 
 export function askServer(
   url: string,
-  errorChance = 0.05,
+  errorChance = 0.03,
 ): Promise<ServerAnswer> {
   const delay = 250 + Math.random() * 750;
 
