@@ -62,12 +62,12 @@ async function checkLink(link: string) {
 	if (!isLatestInput(link)) return
 	const editAtStart = editCount
 
-const cached = answers.get(link)
-if (cached && Date.now() - cached.at < CACHE_MS) {
-	showAnswer(cached.answer)
-	rememberCheck(link, cached.answer)
-	return
-}
+	const cached = answers.get(link)
+	if (cached && Date.now() - cached.at < CACHE_MS) {
+		showAnswer(cached.answer)
+		rememberCheck(link, cached.answer)
+		return
+	}
 
 	try {
 		const answer = await askServer(link)
