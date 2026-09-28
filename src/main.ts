@@ -52,12 +52,15 @@ function rememberCheck(link: string, answer: ServerAnswer) {
 	)
 }
 
+let editCount = 0
+
 function isLatestInput(link: string) {
 	return linkInput.value.trim() === link
 }
 
 async function checkLink(link: string) {
 	if (!isLatestInput(link)) return
+	const editAtStart = editCount
 
 	const cached = answers.get(link)
 	if (cached && Date.now() - cached.at < CACHE_MS) {
@@ -68,11 +71,11 @@ async function checkLink(link: string) {
 	try {
 		const answer = await askServer(link)
 		answers.set(link, { answer, at: Date.now() })
-		if (!isLatestInput(link)) return
+		if (editCount !== editAtStart) return
 		showAnswer(answer)
 		rememberCheck(link, answer)
 	} catch {
-		if (isLatestInput(link)) say("The server didn't answer, press Enter to try again", "error")
+		if (editCount === editAtStart) say("The server didn't answer, press Enter to try again", "error")
 	}
 }
 
@@ -96,6 +99,7 @@ function readValidLink(): string | null {
 }
 
 linkInput.addEventListener("input", () => {
+	editCount++
 	const link = readValidLink()
 	if (!link) return
 	say("Looks like a link, checking...", "waiting")
@@ -106,6 +110,6 @@ linkInput.addEventListener("keydown", (event) => {
 	if (event.key !== "Enter") return
 	const link = readValidLink()
 	if (!link) return
-	say("Checking now...", "waiting")
-	checkLink(link)
+	say("Checking again...", "waiting")
+	checkWhileTyping(link)
 })
